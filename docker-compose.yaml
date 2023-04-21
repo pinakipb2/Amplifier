@@ -15,6 +15,7 @@ services:
       - 3000:3000
     depends_on:
       - server
+      - mongodb
 
   mongodb:
     image: mongo
