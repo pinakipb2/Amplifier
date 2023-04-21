@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <SessionProvider session={pageProps.session}>
       <main className={`${inter.className}`}>
         <Head>
-          <link rel='shortcut icon' href='/amplifier.svg' />
+          <link rel='shortcut icon' href='/fav.ico' />
         </Head>
         <Component {...pageProps} />
       </main>
