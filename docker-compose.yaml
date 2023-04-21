@@ -50,6 +50,7 @@ services:
     restart: always
     volumes:
       - ./server:/server
+      - /server/node_modules
     ports:
       - 5000:5000
     depends_on:
