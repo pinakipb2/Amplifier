@@ -47,6 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (err instanceof ZodError) {
         return res.status(500).json({ message: err.issues });
       }
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   } else {
     res.status(500).json({ message: "HTTP method not valid only POST Accepted" });

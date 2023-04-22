@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-
-// import LogoIcon from "../images/logo/logo-icon.svg";
 import DropdownUser from "./DropdownUser";
-// import DarkModeSwitcher from "./DarkModeSwitcher";
-// import { Link } from "react-router-dom";
 import Image from "next/image";
 import Link from "next/link";
 
 const Header = (props: any) => {
+
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
-      <div className="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">
+      <div className="flex flex-grow items-center justify-between lg:py-4 px-4 shadow-2 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
           <button
@@ -20,7 +17,7 @@ const Header = (props: any) => {
               e.stopPropagation();
               props.setSidebarOpen(!props.sidebarOpen);
             }}
-            className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
+            className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-white dark:bg-boxdark lg:hidden"
           >
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="du-block absolute right-0 h-full w-full">
@@ -36,8 +33,7 @@ const Header = (props: any) => {
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden" href="/admin/dashboard">
-            {/* <img src={LogoIcon} alt="Logo" /> */}
+          <Link className="block flex-shrink-0 lg:hidden mt-2" href="/admin/dashboard">
             <Image src="/amplifier.svg" alt="Amplifier" height="80" width="90" className="hover:cursor-pointer" />
           </Link>
         </div>

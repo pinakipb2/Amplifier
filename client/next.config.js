@@ -8,6 +8,9 @@ const nextConfig = {
     };
     return config;
   },
+  images: {
+    domains: ["api.dicebear.com"],
+  },
 };
 
 module.exports = nextConfig;

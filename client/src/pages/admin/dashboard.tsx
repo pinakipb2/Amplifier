@@ -4,6 +4,31 @@ import CardThree from "@/components/Cards/CardThree";
 import CardTwo from "@/components/Cards/CardTwo";
 import SEO from "@/components/SEO";
 import DefaultLayout from "@/components/layout/DefaultLayout";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps({ req }: { req: any }) {
+  const session = await getSession({ req });
+  // @ts-ignore
+  if (session && session.user!.role !== "admin") {
+    return {
+      redirect: {
+        destination: "/admin/login",
+        permanent: false,
+      },
+    };
+  }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/admin/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
 
 const Dashboard = () => {
   return (

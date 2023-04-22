@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -50,4 +51,42 @@ model Admin {
   name     String
   email    String  @unique
   password String? @db.Text
+}
+
+model PodcastPlaylist {
+  id          String    @id @default(cuid())
+  title       String    @unique
+  description String?   @db.Text
+  image       String?   @db.Text
+  Podcast     Podcast[]
+  createdAt   DateTime  @default(now())
+}
+
+model Podcast {
+  id                String           @id @default(cuid())
+  name              String           @unique
+  description       String           @db.Text
+  category          Category
+  type              PodcastType
+  speaker           String
+  podcast_url       String           @db.Text
+  playlist          PodcastPlaylist? @relation(fields: [podcastPlaylistId], references: [id])
+  podcastPlaylistId String?
+  createdAt         DateTime         @default(now())
+
+  @@fulltext([name, description, speaker])
+}
+
+enum Category {
+  EDUCATION
+  PUBLIC
+  BUSINESS
+  COMEDY
+  ARTS
+  TECHNOLOGY
+}
+
+enum PodcastType {
+  AUDIO
+  VIDEO
 }
