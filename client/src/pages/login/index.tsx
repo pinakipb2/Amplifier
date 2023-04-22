@@ -5,12 +5,13 @@ import { getSession, signIn } from "next-auth/react";
 import { Lobster } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const lobster = Lobster({ weight: "400", subsets: ["latin"] });
 
@@ -31,6 +32,15 @@ export async function getServerSideProps({ req }: { req: any }) {
 
 const Login = () => {
   const router = useRouter();
+  // if (router.query.error) {
+  //   toast.error("Check your Credentials", { id: "check-credentials" });
+  // }
+  useEffect(() => {
+    if (router.query.error) {
+      toast.error("Check Your Credentials", { id: "check-credentials" });
+    }
+  }, []);
+
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const handleGoogleSignIn = async () => {
     signIn("google", { callbackUrl: process.env.NEXT_PUBLIC_AUTH_SUCCESS_REDIRECT_URL });
@@ -63,8 +73,7 @@ const Login = () => {
     },
   });
   const onSubmit: SubmitHandler<loginSchemaType> = async (data) => {
-    console.log(data);
-    const status: { ok: boolean; url: string } = (await signIn("user-login", {
+    const status: { ok: boolean; url: string; error: string } = (await signIn("user-login", {
       redirect: false,
       email: data.email,
       password: data.password,
@@ -73,6 +82,8 @@ const Login = () => {
     console.log(status);
     if (status.ok) {
       router.push(status.url);
+    } else {
+      toast.error(status.error, { id: status.error });
     }
   };
   return (

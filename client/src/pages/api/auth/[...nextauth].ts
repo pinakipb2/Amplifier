@@ -4,7 +4,6 @@ import NextAuth, { Awaitable } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { Prisma } from "@prisma/client";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -38,4 +37,7 @@ export default NextAuth({
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+  },
 });

@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
@@ -53,6 +54,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting, isValidating },
   } = useForm<registerSchemaType>({
     mode: "onSubmit",
@@ -64,12 +66,12 @@ const Register = () => {
     },
   });
   const onSubmit: SubmitHandler<registerSchemaType> = async (data) => {
-    console.log(data);
     try {
-      const resp = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, { name: data.name, email: data.email, password: data.password });
-      console.log(resp);
-    } catch (err) {
-      console.log(err);
+      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, { name: data.name, email: data.email, password: data.password });
+      toast.success("Account Created !");
+      reset();
+    } catch (err: any) {
+      toast.error(err.response.data.message, { id: err.response.data.message });
     }
   };
   return (
