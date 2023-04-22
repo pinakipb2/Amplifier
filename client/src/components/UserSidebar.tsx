@@ -1,21 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 // import { Link, useLocation } from 'react-router-dom'
 import { useRouter } from "next/router";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 // import Logo from "../images/logo/logo.svg";
 // import Link from "./Link";
-import Link from "next/link";
-import Image from "next/image";
-import { RxDashboard } from "react-icons/rx";
-import { MdPlaylistAdd } from "react-icons/md";
-import { MdOutlinePodcasts } from "react-icons/md";
 import { Lobster } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
+import { AiFillHome } from "react-icons/ai";
+import { RiHistoryLine } from "react-icons/ri";
+import { FaHeart } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 const lobster = Lobster({ weight: "400", subsets: ["latin"] });
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; setSidebarOpen: Function }) => {
+const UserSidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; setSidebarOpen: Function }) => {
   const router = useRouter();
   const pathname = router.pathname;
+
+  const { data: session } = useSession();
+  console.log(session);
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -47,12 +51,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; setSid
   return (
     <div
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-black lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <Link href="/admin/dashboard" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <Image src="/amplifier.svg" alt="Amplifier" height="80" width="90" className="hover:cursor-pointer" />
           <div className={`${lobster.className} text-4xl -mt-5 -ml-2 hover:cursor-pointer text-white`}>Amplifier</div>
         </Link>
@@ -69,21 +73,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; setSid
 
       <div className="no-scrollbar px-6 flex flex-col overflow-y-auto duration-300 ease-linear">
         <div>
-          {/* <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">MENU</h3> */}
-
           <div className="mb-6 flex flex-col gap-1.5">
-            <SidebarLinkGroup activeCondition={pathname === "/admin/dashboard" || pathname.includes("dashboard")}>
+            <SidebarLinkGroup activeCondition={pathname === "/" || pathname.includes("/")}>
               {(handleClick, open) => {
                 return (
                   <React.Fragment>
                     <Link
-                      href="/admin/dashboard"
+                      href="/"
                       className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                        (pathname === "/admin/dashboard" || pathname.includes("dashboard")) && "bg-graydark dark:bg-meta-4"
+                        (pathname === "/" || pathname.includes("/")) && "bg-graydark dark:bg-meta-4"
                       }`}
                     >
-                      <RxDashboard size={20} />
-                      Dashboard
+                      <AiFillHome size={20} />
+                      Explore Podcasts
                     </Link>
                   </React.Fragment>
                 );
@@ -93,15 +95,28 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; setSid
               {(handleClick, open) => {
                 return (
                   <React.Fragment>
-                    <Link
-                      href="/admin/podcast-playlists"
-                      className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                        (pathname === "/admin/podcast-playlists" || pathname.includes("podcast-playlists")) && "bg-graydark dark:bg-meta-4"
-                      }`}
-                    >
-                      <MdPlaylistAdd size={20} />
-                      Podcast Playlists
-                    </Link>
+                    {
+                      // @ts-ignore
+                      session?.user!.role === "admin" || session === null ? (
+                        <Link
+                          href="/login"
+                          className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                        >
+                          <FaHeart size={20} />
+                          Favourite Podcasts
+                        </Link>
+                      ) : (
+                        <Link
+                          href="/admin/podcast-playlists"
+                          className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                            (pathname === "/admin/podcast-playlists" || pathname.includes("podcast-playlists")) && "bg-graydark dark:bg-meta-4"
+                          }`}
+                        >
+                          <FaHeart size={20} />
+                          Favourite Podcasts
+                        </Link>
+                      )
+                    }
                   </React.Fragment>
                 );
               }}
@@ -110,15 +125,28 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; setSid
               {(handleClick, open) => {
                 return (
                   <React.Fragment>
-                    <Link
-                      href="/admin/add-podcasts"
-                      className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                        (pathname === "/admin/add-podcasts" || pathname.includes("add-podcasts")) && "bg-graydark dark:bg-meta-4"
-                      }`}
-                    >
-                      <MdOutlinePodcasts size={20} />
-                      Add Podcasts
-                    </Link>
+                    {
+                      // @ts-ignore
+                      session?.user!.role === "admin" || session === null ? (
+                        <Link
+                          href="/login"
+                          className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                        >
+                          <RiHistoryLine size={20} />
+                          History
+                        </Link>
+                      ) : (
+                        <Link
+                          href="/admin/podcast-playlists"
+                          className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                            (pathname === "/admin/podcast-playlists" || pathname.includes("podcast-playlists")) && "bg-graydark dark:bg-meta-4"
+                          }`}
+                        >
+                          <RiHistoryLine size={20} />
+                          History
+                        </Link>
+                      )
+                    }
                   </React.Fragment>
                 );
               }}
@@ -130,4 +158,4 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; setSid
   );
 };
 
-export default Sidebar;
+export default UserSidebar;
