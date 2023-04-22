@@ -17,7 +17,8 @@ const lobster = Lobster({ weight: "400", subsets: ["latin"] });
 
 export async function getServerSideProps({ req }: { req: any }) {
   const session = await getSession({ req });
-  if (session) {
+  // @ts-ignore
+  if (session && session.user!.role !== "admin") {
     return {
       redirect: {
         destination: "/",
@@ -32,9 +33,6 @@ export async function getServerSideProps({ req }: { req: any }) {
 
 const Login = () => {
   const router = useRouter();
-  // if (router.query.error) {
-  //   toast.error("Check your Credentials", { id: "check-credentials" });
-  // }
   useEffect(() => {
     if (router.query.error) {
       toast.error("Check Your Credentials", { id: "check-credentials" });
@@ -68,7 +66,7 @@ const Login = () => {
     mode: "onSubmit",
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "pinakipb2@gmail.com",
+      email: "pinakipb@gmail.com",
       password: "12345678",
     },
   });
