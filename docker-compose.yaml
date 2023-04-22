@@ -1,61 +1,97 @@
 version: '3.9'
 
 services:
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    container_name: client
-    restart: always
-    volumes:
-      - ./client:/client
-      - /client/node_modules
-      - /client/.next
-    ports:
-      - 3000:3000
-    depends_on:
-      - server
-      - mongodb
-
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    ports:
-      - 27017:27017
-    restart: always
-    volumes:
-      - mongodb:/data/db
+  mysqldb:
+    image: mysql
+    container_name: mysqldb
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
-
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: my_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: db_pass
     ports:
-      - 8081:8081
-    depends_on:
-      - mongodb
-    restart: always
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-  
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    container_name: server
-    restart: always
+      - 3306:3306
     volumes:
-      - ./server:/server
-      - /server/node_modules
-    ports:
-      - 5000:5000
-    depends_on:
-      - mongodb
+      - dbdata:/var/lib/mysql
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    depends_on:
+      - mysqldb
+    environment:
+      PMA_HOST: mysqldb
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
 
 volumes:
-  mongodb: {}
+  dbdata: {}
+
+
+
+
+
+
+
+
+#   client:
+#     build:
+#       context: ./client
+#       dockerfile: Dockerfile
+#     container_name: client
+#     restart: always
+#     volumes:
+#       - ./client:/client
+#       - /client/node_modules
+#       - /client/.next
+#     ports:
+#       - 3000:3000
+#     depends_on:
+#       - server
+#       - mongodb
+
+#   mongodb:
+#     image: mongo
+#     container_name: mongodb
+#     ports:
+#       - 27017:27017
+#     restart: always
+#     volumes:
+#       - mongodb:/data/db
+#     environment:
+#       - MONGO_INITDB_ROOT_USERNAME=admin
+#       - MONGO_INITDB_ROOT_PASSWORD=password
+
+#   mongo-express:
+#     image: mongo-express
+#     container_name: mongo-express
+#     ports:
+#       - 8081:8081
+#     depends_on:
+#       - mongodb
+#     restart: always
+#     environment:
+#       - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+#       - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+#       - ME_CONFIG_MONGODB_SERVER=mongodb
+  
+#   server:
+#     build:
+#       context: ./server
+#       dockerfile: Dockerfile
+#     container_name: server
+#     restart: always
+#     volumes:
+#       - ./server:/server
+#       - /server/node_modules
+#     ports:
+#       - 5000:5000
+#     depends_on:
+#       - mongodb
+
+
+# volumes:
+#   mongodb: {}
