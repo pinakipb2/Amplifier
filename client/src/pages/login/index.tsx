@@ -10,6 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
+import { useRouter } from "next/router";
 
 const lobster = Lobster({ weight: "400", subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export async function getServerSideProps({ req }: { req: any }) {
 }
 
 const Login = () => {
+  const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const handleGoogleSignIn = async () => {
     signIn("google", { callbackUrl: process.env.NEXT_PUBLIC_AUTH_SUCCESS_REDIRECT_URL });
@@ -56,12 +58,22 @@ const Login = () => {
     mode: "onSubmit",
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "pinakipb2@gmail.com",
+      password: "12345678",
     },
   });
-  const onSubmit: SubmitHandler<loginSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<loginSchemaType> = async (data) => {
     console.log(data);
+    const status: { ok: boolean; url: string } = (await signIn("user-login", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+      callbackUrl: "/",
+    })) as any;
+    console.log(status);
+    if (status.ok) {
+      router.push(status.url);
+    }
   };
   return (
     <div className="flex flex-col w-full h-screen">

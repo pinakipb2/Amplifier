@@ -1,5 +1,6 @@
 import SEO from "@/components/SEO";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import classNames from "classnames";
 import { getSession, signIn } from "next-auth/react";
 import { Lobster } from "next/font/google";
@@ -57,13 +58,19 @@ const Register = () => {
     mode: "onSubmit",
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      email: "",
-      password: "",
-      name: "",
+      email: "pinakipb2@gmail.com",
+      password: "12345678",
+      name: "Pinaki",
     },
   });
-  const onSubmit: SubmitHandler<registerSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<registerSchemaType> = async (data) => {
     console.log(data);
+    try {
+      const resp = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/signup`, { name: data.name, email: data.email, password: data.password });
+      console.log(resp);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="flex flex-col w-full h-screen">
