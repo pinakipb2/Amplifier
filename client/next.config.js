@@ -9,7 +9,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["api.dicebear.com"],
+    domains: ["api.dicebear.com","res.cloudinary.com"],
   },
 };
 
