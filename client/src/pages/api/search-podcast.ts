@@ -24,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             search: term,
           },
         },
+        include: { playlist: true },
       });
       if (result.length > 0) {
         return res.send({ result });

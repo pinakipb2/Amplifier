@@ -1,9 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import DropdownUser from "./DropdownUser";
 import { FiSearch } from "react-icons/fi";
+import DropdownSearch from "./DropdownSearch";
+import axios from "axios";
 
 const UserHeader = (props: any) => {
+  const [searchValue, setsearchValue] = useState("");
+  const [requiredPodcast, setRequiredPodcast] = useState([]);
+  const getSearchDropdown = async () => {
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/search-podcast`, { term: searchValue });
+      console.log(res);
+      setRequiredPodcast(res.data.result);
+    } catch (err: any) {
+      console.log(err);    
+    }
+  };
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-black dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between lg:py-4 px-4 shadow-2 md:px-6 2xl:px-11">
@@ -37,16 +51,21 @@ const UserHeader = (props: any) => {
           </Link>
         </div>
 
-        <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+        <div className="sm:block">
             <div className="relative">
-              <button className="absolute top-1/2 left-0 -translate-y-1/2">
+              <button onClick={getSearchDropdown} className="absolute top-1/2 left-0 -translate-y-1/2">
                 <FiSearch size={20} />
               </button>
 
-              <input type="text" placeholder="Search for Podcasts..." className="w-full bg-transparent pr-4 pl-9 focus:outline-none" />
+              <input onChange={(e) => setsearchValue(e.target.value)} type="text" placeholder="Search for Podcasts..." className="w-full bg-transparent pr-4 pl-9 focus:outline-none" />
             </div>
-          </form>
+          {
+            requiredPodcast?.length > 0 && (<div className="flex items-center gap-3 2xsm:gap-7 z-[1000000]">
+            <ul className="flex items-center gap-2 2xsm:gap-4"></ul>
+
+            <DropdownSearch podcast={requiredPodcast} setRequiredPodcast={setRequiredPodcast} />
+          </div>) 
+          }
         </div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
