@@ -8,7 +8,7 @@ Here users can listen to both audio and video podcasts !
 
 ## Steps to Build and Run:
 
-\*\* Docker must be installed in your system.
+\*\* Docker, NodeJS must be installed in your system.
 
 Step 1: Clone the github repo
 
@@ -24,19 +24,31 @@ Step 3: Run docker using
 docker compose up
 ```
 
-This will start mysql and docker client service.
+This will start mysql service.
 
-Step 4: Run the commands in "client" service in docker cli:
+Step 4: Run the commands:
+
+```
+cd client
+```
+
+```
+npm i
+```
+
+This commands will generate DB schemas and will seed the default admin.
 
 ```
 npx prisma migrate dev
 ```
 
 ```
-npx prisma db seed
+npm prisma db seed
 ```
 
-This commands will generate DB schemas and will seed the default admin.
+```
+npm run dev
+```
 
 Step 4: Site is live @ http://localhost:3000
 
