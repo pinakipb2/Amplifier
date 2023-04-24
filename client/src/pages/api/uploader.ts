@@ -7,13 +7,16 @@ import { join } from "path";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { files } = await parseForm(req);
+    // @ts-ignore
     const currFile = join(process.env.ROOT_DIR || process.cwd(), `/uploads/${files.file.newFilename}`);
     const contents = fs.readFileSync(currFile);
     const base64Content = contents.toString("base64");
+    // @ts-ignore
     const pod = `data:${files.file.mimetype};base64,` + base64Content;
-    //@ts-ignore
+    // @ts-ignore
     const uploadedResponse = await cloudinary.uploader.upload(pod, "Amplifier", { resource_type: "auto" });
     console.log(uploadedResponse);
+    // @ts-ignore
     return res.send({ url: uploadedResponse.url });
   } catch (err: any) {
     console.log(err);

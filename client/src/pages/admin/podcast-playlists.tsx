@@ -144,6 +144,7 @@ const PodcastPlaylists = () => {
             </div>
           </form>
         </div>
+        {/* @ts-ignore */}
         <AllPlaylists playlist={playlist} key={playlist} />
       </div>
     </DefaultLayout>

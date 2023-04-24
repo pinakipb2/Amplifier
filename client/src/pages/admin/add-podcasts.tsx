@@ -234,6 +234,7 @@ const AddPodcasts = () => {
             </div>
           </form>
         </div>
+        {/* @ts-ignore */}
         <AllPodcasts allPodcast={allPodcast} key={allPodcast} />
       </div>
     </DefaultLayout>
