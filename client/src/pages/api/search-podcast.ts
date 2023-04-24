@@ -34,6 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (err instanceof ZodError) {
         return res.status(500).json({ message: err.issues });
       }
+      console.log(err);
+
       return res.status(500).json({ message: "Internal Server Error" });
     }
   } else {

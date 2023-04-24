@@ -8,7 +8,7 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
 
   const trigger = useRef(null);
   const dropdown = useRef(null);

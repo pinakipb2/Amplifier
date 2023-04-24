@@ -66,8 +66,8 @@ const Login = () => {
     mode: "onSubmit",
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "pinakipb@gmail.com",
-      password: "12345678",
+      email: "",
+      password: "",
     },
   });
   const onSubmit: SubmitHandler<loginSchemaType> = async (data) => {

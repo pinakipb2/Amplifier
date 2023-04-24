@@ -1,38 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Amplifier
 
-## Getting Started
+Amplify your Podcast Experience
 
-First, run the development server:
+![Amplifier](./screenshots/amplifier.PNG)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+Here users can listen to both audio and video podcasts !
+
+## Steps to Build and Run:
+
+\*\* Docker must be installed in your system.
+
+Step 1: Clone the github repo
+
+```
+git clone https://github.com/pinakipb2/Amplifier.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Step 2: Create .env file and copy the contents from .example.env and generate your own tokens and update in .env file.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Step 3: Run docker using
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+docker compose up
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+This will start mysql and docker client service.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Step 4: Run the commands in "client" service in docker cli:
 
-## Learn More
+```
+npx prisma migrate dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+```
+npx prisma db seed
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This commands will generate DB schemas and will seed the default admin.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Step 4: Site is live @ http://localhost:3000

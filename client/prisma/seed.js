@@ -8,10 +8,10 @@ async function main() {
     var salt = await bcrypt.genSalt(10);
     var passHash = await bcrypt.hash("12345678", salt);
     const admin = await prisma.admin.upsert({
-      where: { email: "admin@admin.com" },
+      where: { email: "admin@amplifier.com" },
       update: {},
       create: {
-        email: "admin@admin.com",
+        email: "admin@amplifier.com",
         name: "Admin A1",
         password: passHash,
       },

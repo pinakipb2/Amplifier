@@ -61,9 +61,9 @@ const Register = () => {
     mode: "onSubmit",
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      email: "pinakipb@gmail.com",
-      password: "12345678",
-      name: "Pinaki",
+      email: "",
+      password: "",
+      name: "",
     },
   });
   const onSubmit: SubmitHandler<registerSchemaType> = async (data) => {

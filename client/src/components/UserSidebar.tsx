@@ -19,7 +19,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; se
   const pathname = router.pathname;
 
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -81,7 +81,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; se
                     <Link
                       href="/"
                       className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                        (pathname === "/" || pathname.includes("/")) && "bg-graydark dark:bg-meta-4"
+                        (pathname === "/") && "bg-graydark dark:bg-meta-4"
                       }`}
                     >
                       <AiFillHome size={20} />
@@ -91,7 +91,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; se
                 );
               }}
             </SidebarLinkGroup>
-            <SidebarLinkGroup activeCondition={pathname === "/admin/podcast-playlists" || pathname.includes("podcast-playlists")}>
+            <SidebarLinkGroup activeCondition={pathname === "/favourites" || pathname.includes("favourites")}>
               {(handleClick, open) => {
                 return (
                   <React.Fragment>
@@ -107,9 +107,9 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; se
                         </Link>
                       ) : (
                         <Link
-                          href="/admin/podcast-playlists"
+                          href="/favourites"
                           className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                            (pathname === "/admin/podcast-playlists" || pathname.includes("podcast-playlists")) && "bg-graydark dark:bg-meta-4"
+                            (pathname === "/favourites" || pathname.includes("favourites")) && "bg-graydark dark:bg-meta-4"
                           }`}
                         >
                           <FaHeart size={20} />
@@ -121,7 +121,7 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; se
                 );
               }}
             </SidebarLinkGroup>
-            <SidebarLinkGroup activeCondition={pathname === "/admin/add-podcasts" || pathname.includes("add-podcasts")}>
+            <SidebarLinkGroup activeCondition={pathname === "/history" || pathname.includes("history")}>
               {(handleClick, open) => {
                 return (
                   <React.Fragment>
@@ -137,9 +137,9 @@ const UserSidebar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean; se
                         </Link>
                       ) : (
                         <Link
-                          href="/admin/podcast-playlists"
+                          href="/history"
                           className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                            (pathname === "/admin/podcast-playlists" || pathname.includes("podcast-playlists")) && "bg-graydark dark:bg-meta-4"
+                            (pathname === "/history" || pathname.includes("history")) && "bg-graydark dark:bg-meta-4"
                           }`}
                         >
                           <RiHistoryLine size={20} />

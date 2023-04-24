@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -75,6 +75,9 @@ model Podcast {
   podcastPlaylistId String?
   createdAt         DateTime         @default(now())
 
+  @@fulltext([name])
+  @@fulltext([description])
+  @@fulltext([speaker])
   @@fulltext([name, description, speaker])
 }
 

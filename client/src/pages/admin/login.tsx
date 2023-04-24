@@ -62,7 +62,7 @@ const AdminLogin = () => {
     mode: "onSubmit",
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "admin@admin.com",
+      email: "admin@amplifier.com",
       password: "12345678",
     },
   });
