@@ -39,3 +39,11 @@ npx prisma db seed
 This commands will generate DB schemas and will seed the default admin.
 
 Step 4: Site is live @ http://localhost:3000
+
+For Admin to login, go to : http://localhost:3000/admin/login
+Email: admin@amplifier.com
+Password: 12345678
+
+## Documentation:
+
+Documentation can be accessed here: [Amplifier Documentation](https://docs.google.com/document/d/17F463Jb7BpxDHEJGSvDW35M8NP_odAzQRL0bpHcK0M4/)
