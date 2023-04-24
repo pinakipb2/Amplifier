@@ -1,9 +1,8 @@
-import { prisma } from "@/lib/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
-import DatauriParser from 'datauri/parser';
-import path from "path";
-const parser = new DatauriParser();
 import cloudinary from "@/lib/cloudinary";
+import { prisma } from "@/lib/prisma";
+import DatauriParser from 'datauri/parser';
+import { NextApiRequest, NextApiResponse } from "next";
+const parser = new DatauriParser();
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -1,14 +1,10 @@
 import { prisma } from "@/lib/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse, PageConfig } from "next";
 import cloudinary from "@/lib/cloudinary";
 
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req.body);
-
   try {
-    //@ts-ignore
-    const uploadedResponse = await cloudinary.uploader.upload(req.body.podcast, 'Amplifier', { resource_type: 'auto' });
+    console.log(req.body);
 
     const result = await prisma.podcast.create({
       data: {
@@ -18,11 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         type: req.body.type,
         speaker: req.body.speaker,
         podcastPlaylistId: req.body.podcastPlaylistId,
-        podcast_url: uploadedResponse.url,
+        podcast_url: req.body.podcast_url,
       },
       include: {
-        playlist: true
-      }
+        playlist: true,
+      },
     });
     return res.send({ result });
   } catch (err: any) {
@@ -30,3 +26,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
+// export const config: PageConfig = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
