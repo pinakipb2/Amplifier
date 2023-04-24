@@ -108,12 +108,6 @@ const AddPodcasts = () => {
       console.log(err);
       toast.error("File Size too large", { id: "upload-err" });
     }
-    // };
-    //   fileReader.readAsDataURL(data.podcast[0]);
-    // } catch (err: any) {
-    //   console.log(err);
-    //   toast.error("File Size too large", { id: "upload-err" });
-    // }
   };
 
   return (
